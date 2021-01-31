@@ -5,3 +5,6 @@ from .models import Neighbourhood,Business,Post
 from users.models import Profile
 
 # Create your views here.
+def index(request):
+    return render(request, 'neighbourhood/index.html')
+
