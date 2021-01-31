@@ -1,0 +1,93 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <!-- Font-Awesome -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--  Custom css  -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    {% if title%}
+        <title>Neighbourhood {{ title }}</title>
+    {% else %}
+        <title>Django-blog</title>
+    {% endif %}
+</head>
+<body>
+<div class="container-fluid" id="home-container">
+    <nav class="navbar navbar-expand-lg">
+      <a class="navbar-brand" href="#">Neighbourhood</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="nav navbar-nav ml-auto">
+            <li class="nav-link">
+                <a href="{% url 'hood' %}" class="nav-item text-dark">All Hood</a>
+            </li>
+            {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle mr-4 text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ user.username }}
+                      <img class="rounded-circle" width="30" height="30" src="{{ user.profile.image.url }}">
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item text-dark" href="{% url 'profile' %}">Profile</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item text-dark" href="{% url 'logout' %}">Logout</a>
+                    </div>
+                  </li>
+            {% else %}
+                <li class="nav-item active">
+                    <a class="nav-item nav-link text-dark" href="{% url 'login' %}">Login</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-item nav-link text-dark pr-4" href="{% url 'register' %}">Register</a>
+                </li>
+            {%endif%}
+        </ul>
+      </div>
+    </nav>
+    <!-- end navbar -->
+    <div class="container">
+        <div class="row">
+        <div class="col-md-6">
+            <h1 class="home-title">Discover your <br> neighborhood</h1>
+            <p class="hom-subtitle">Neighbourhood is the best way to stay informed about what’s going on in your neighborhood—whether it’s finding a last-minute babysitter, planning a local event, or sharing safety tips. There are so many ways our neighbors can help us, we just need an easier way to connect with them.</p>
+            <form>
+                <div class="row">
+                    <div class="col-md-12 form-group pt-2">
+                        <input type="text" class="form-control" id="home-form" placeholder="Street Address">
+                    </div>
+                    <div class="col-md-4 form-group pt-2">
+                        <input type="text" class="form-control" id="home-form1" placeholder="Neighbourhood">
+                    </div>
+                    <div class="col-md-8 form-group pt-2">
+                        <input type="text" class="form-control" id="home-form2" placeholder="Email Address">
+                    </div>
+                    <div class="col-md-12 pt-2">
+                        <a href="{% url 'hood' %}"><button class="btn btn-block home-button">Find Your Neighbourhood</button></a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6" id="home-background">
+        </div>
+    </div>
+    </div>
+</div>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+</body>
+</html>
