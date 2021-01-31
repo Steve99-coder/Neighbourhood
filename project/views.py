@@ -28,3 +28,9 @@ def create_neighbourhood(request):
     else:
         form = NeighbourHoodForm()
     return render(request, 'neighbourhood/newhood.html', {'form': form})
+
+def join_neighbourhood(request, id):
+    neighbourhood = get_object_or_404(Neighbourhood, id=id)
+    request.user.profile.neighbourhood = neighbourhood
+    request.user.profile.save()
+    return redirect('hood')
