@@ -1,0 +1,87 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <!-- Font-Awesome -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--  Custom css  -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    {% if title%}
+        <title>Neighbourhood {{ title }}</title>
+    {% else %}
+        <title>Django-blog</title>
+    {% endif %}
+</head>
+<body>
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg">
+      <a class="navbar-brand" href="#">Neighbourhood</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="nav navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle mr-4" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ user.username }}
+                      <img class="rounded-circle" width="30" height="30" src="{{ user.profile.image.url }}">
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item text-dark" href="{% url 'profile' %}">Profile</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item text-dark" href="{% url 'logout' %}">Logout</a>
+                    </div>
+                  </li>
+            {% else %}
+                <li class="nav-item active">
+                    <a class="nav-item nav-link text-dark" href="{% url 'login' %}">Login</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-item nav-link text-dark pr-4" href="{% url 'register' %}">Register</a>
+                </li>
+            {%endif%}
+        </ul>
+      </div>
+    </nav>
+    <!-- end navbar -->
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="content-section">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <fieldset class="form-group">
+                            <legend class="border-bottom mb-4 sign-up-title">Sign Up</legend>
+                            {{ form|crispy }}
+                        </fieldset>
+                        <div class="form-group">
+                            <button type="submit" class="btn login-button">Sign Up</button>
+                        </div>
+                    </form>
+                    <div class="border-top pt-3">
+                        <small class="login-need">Already have an account <a class="ml-2 login-need-link" href="{% url 'login' %}">Sign In</a></small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" id="register-background"></div>
+        </div>
+    </div>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+</body>
+</html>
