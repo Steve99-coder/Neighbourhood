@@ -8,3 +8,11 @@ from users.models import Profile
 def index(request):
     return render(request, 'neighbourhood/index.html')
 
+
+def neighbourhoods(request):
+    all_hoods = Neighbourhood.objects.all()
+    all_hoods = all_hoods[::-1]
+    params = {
+        'all_hoods': all_hoods,
+    }
+    return render(request, 'neighbourhood/neighbourhoods.html', params)
