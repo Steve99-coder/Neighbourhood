@@ -1,0 +1,36 @@
+{% extends 'neighbourhood/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container-fluid">
+  <div class="col-md-12">
+    <a href="{% url 'new-hood' %}" class="btn btn-outline bg-light btn-sm mb-4 text-dark" style="text-align: center"> <i class="fa fa-plus-circle text-success"></i> New Neighbourhood</a>
+  </div>
+  <div class="row">
+    {% for hood in all_hoods %}
+    <div class="col-md-4">
+      <div class="card mb-4">
+        <h5 class="card-title p-2">Hood Name ~ <span class="hood-name" style="font-style: italic;">{{ hood.name }}</span></h5>
+        <img src="{{ hood.neighbourhood_logo.url }}" class="card-img-top" alt="{{ hood.name }}" height="180px">
+        <div class="card-body">
+          <p class="card-text">{{hood.description}}</p>
+          <p>Hood Location ~ {{hood.location}}</p>
+          <p><span>{{hood.members.count}} member{{hood.members.count|pluralize}}</span></p>
+          {% if request.user.profile.neighbourhood == hood %}
+          <div class="leave">
+            <a href="{% url 'leave-hood' hood.id %}" class="btn btn-outline-danger btn-sm mb-2">Leave Neighbourhood</a>
+          </div>
+          <div class="explore">
+            <a href="{% url 'single-hood' user.profile.neighbourhood.id %}" class="btn btn-outline-success btn-sm">Explore {{user.profile.neighbourhood.name}} Estate
+            </a>
+          </div>
+          {% elif not request.user.profile.neighbourhood %}
+          <a href="{% url 'join-hood' hood.id %}" class="btn btn-success btn-sm">Join Neighbourhood</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+
