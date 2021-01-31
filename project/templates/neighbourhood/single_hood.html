@@ -1,0 +1,127 @@
+{% extends 'neighbourhood/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container" >
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-3">
+        <div class="row no-gutters">
+          <div class="col-md-5">
+            <img src="{{ hood.neighbourhood_logo.url }}" class="img-thumbnail" alt="">
+          </div>
+          <div class="col-md-7">
+            <div class="card-body">
+              <h5 class="card-title tt">{{ hood.name }} ({{hood.location}})
+              </h5>
+              <h6 class="card-text">
+                <span><strong>{{hood.members.count}}</strong> Member{{hood.members.count|pluralize}}</span>
+                | <strong>{{ hood.business.count }}</strong> Businesses | <strong>
+                  {{ hood.hood_post.count }}</strong> Post{{ hood.hood_post.count|pluralize }}
+              </h6>
+              <p class="card-text">{{hood.description}}</p>
+              <p class="card-text"><span class="text-success">Police Contact</span>
+                &nbsp;<strong>{{hood.police_number}}</strong> |
+                <span class="text-success">Hospital Contact</span> <strong>{{hood.health_number}}</strong></p>
+              <p class="card-text">Hood Admin: <small class="">
+                  {{ hood.admin.user.username }}</small></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container hoode">
+    <div class="row">
+      <div class="col-md-12">
+        <a href="" class="btn btn-sm btn-success mb-4 mr-4" data-toggle="modal" data-target="#Business">Add
+          Business</a>
+        <a class="btn btn-sm btn-success mb-4" href="{% url 'post' hood.id %}">New Post</a>
+        {% if hood.admin == user.profile %}
+        {% endif %}
+
+
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Business</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Posts</a>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+              <h5 class="D-block mt-3 mb-2">Available Businesses</h5>
+              <div class="row">
+                {% for busines in business %}
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                      <div class="card-body">
+                        <h6 class="card-title">{{busines.name}}:<span>{{busines.email}}</span>
+                        </h6>
+                        <p class="card-text">{{busines.description}}</p>
+                        <p class="card-text">Owner: <small class="text-info">
+                            {{ busines.user.user.username|title }}</small></p>
+                      </div>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+              <h5 class="D-block mt-3 mb-2">Posts</h5>
+              <div class="row">
+                {% for post in posts %}
+                <div class="col-md-4">
+                  <div class="card mb-4 p-3">
+                      <div class="panel-header">
+                      <h5 class="card-title text-center">{{post.title}}</h5>
+                    </div>
+                    <div class="panel-body">
+                      <p class="card-text">" {{post.post}} "
+                      </p>
+                      <p class="card-text">By: <small class="text-info">
+                          {{ post.user.user.username|title }}</small> <small style="float:right">{{post.date|date}}</small>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+
+        <hr>
+        <div class="modal fade" id="Business" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+          aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle" style="text-align: center">Add Business</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true"> <i class="fa fa-times-circle text-success"></i></span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form action="" method="post">
+                  {% csrf_token%}
+                  {{form|crispy}}
+                  <button type="submit" class="btn btn-md btn-success">Add</button>
+                  <button type="button" class="btn btn-md btn-outline-danger " data-dismiss="modal" style="float:right">
+                    Exit
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  body{
+    background-color: lavender;
+  }
+</style>
+{% endblock %}
