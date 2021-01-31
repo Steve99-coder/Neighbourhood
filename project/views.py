@@ -65,3 +65,17 @@ def single_neighbourhood(request, hood_id):
         'posts': posts
     }
     return render(request, 'neighbourhood/single_hood.html', params)
+
+def create_post(request, hood_id):
+    hood = Neighbourhood.objects.get(id=hood_id)
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.hood = hood
+            post.user = request.user.profile
+            post.save()
+            return redirect('single-hood', hood.id)
+    else:
+        form = PostForm()
+    return render(request, 'neighbourhood/post.html', {'form': form})
